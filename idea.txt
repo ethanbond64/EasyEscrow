@@ -1,0 +1,5 @@
+ChatGPT plugin that connects to ripple
+
+Problem: Getting escrow contracts onto the xrp ledger
+Solution: ChatGPT plugin that uses natural language to turn written contracts into smart contract
+
