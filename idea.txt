@@ -3,3 +3,10 @@ ChatGPT plugin that connects to ripple
 Problem: Getting escrow contracts onto the xrp ledger
 Solution: ChatGPT plugin that uses natural language to turn written contracts into smart contract
 
+SPA
+
+upload a file
+api understands and returns identities, condition + amount
+user prompted for id to account mappings
+user prompted for condition thing
+returned a for the status of the escrow
