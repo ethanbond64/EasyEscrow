@@ -36,9 +36,9 @@ def getComponents(text):
     return response["choices"][0]["message"]["content"]
 
 
-def extract_text_from_pdf(pdf_path):
+def extract_text_from_pdf(pdf):
     # Open the PDF
-    pdf_document = fitz.open(pdf_path)
+    pdf_document = fitz.open("pdf", pdf.read())
     text = ""
 
     # Iterate through the pages and extract text
@@ -53,10 +53,14 @@ def extract_text_from_pdf(pdf_path):
 def hello_world():
     # print(request.__dict__)
     print(request.files)
-    print(request.form)
-    # file = request.files["file"]
+    # print(request.form)
+    file = request.files.get("files")
+    print(file)
+    extracted_text = extract_text_from_pdf(file)
+    print(extracted_text)
+
     # resp = request.files["file"]
-    return jsonify({"message": "Hello, World!"})
+    return jsonify({"text": extracted_text})
 
 
 if __name__ == "__main__":
