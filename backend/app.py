@@ -11,7 +11,7 @@ from flask_cors import CORS
 # print(search.execute())
 app = Flask(__name__)
 app.config["SERVER_NAME"] = "localhost:8000"
-CORS(app, origins=["*"])
+CORS(app, origins=["http://localhost:3000", "http://localhost:3000/*", "*"])
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
@@ -51,7 +51,9 @@ def extract_text_from_pdf(pdf_path):
 
 @app.route("/", methods=["GET", "POST"])
 def hello_world():
+    # print(request.__dict__)
     print(request.files)
+    print(request.form)
     # file = request.files["file"]
     # resp = request.files["file"]
     return jsonify({"message": "Hello, World!"})

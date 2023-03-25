@@ -14,27 +14,29 @@ function PDFUploader() {
     const formData = new FormData();
     formData.append('files', file);
 
+    console.log(formData);
+
     try {
 
-      const response = await fetch('http://localhost:8000/', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          'Access-Control-Allow-Origin': '*'
-        },
-      });
-
-      // const response = await axios.post('http://localhost:8000/', formData, {
+      // const response = await fetch('http://localhost:8000/', {
+      //   method: 'POST',
+      //   body: formData,
       //   headers: {
       //     'Content-Type': 'multipart/form-data',
+      //     'Access-Control-Allow-Origin': '*'
       //   },
       // });
+
+      const response = await axios.post('http://localhost:8000/', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
       if (response.status === 200) {
         console.log('File uploaded successfully');
         setResponseJson(response.data);
-        setFile(null);
+        // setFile(null);
       }
     } catch (error) {
       console.error('Error uploading file:', error);
