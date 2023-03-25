@@ -10,3 +10,16 @@ api understands and returns identities, condition + amount
 user prompted for id to account mappings
 user prompted for condition thing
 returned a for the status of the escrow
+
+
+Ideally no database
+Flask Server or lambda...
+React frontend
+State "managed" by passing around escrow details in url
+recents stored in local storage if theres time
+
+API methods
+
+1. Parse File
+2. Create contract
+3. Read contract
