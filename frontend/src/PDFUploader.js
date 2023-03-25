@@ -12,16 +12,27 @@ function PDFUploader() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('pdf', file);
+    formData.append('files', file);
 
     try {
-      const response = await axios.post('your_endpoint_here', formData, {
+
+      const response = await fetch('http://localhost:8000/', {
+        method: 'POST',
+        body: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Access-Control-Allow-Origin': '*'
         },
       });
 
+      // const response = await axios.post('http://localhost:8000/', formData, {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // });
+
       if (response.status === 200) {
+        console.log('File uploaded successfully');
         setResponseJson(response.data);
         setFile(null);
       }
