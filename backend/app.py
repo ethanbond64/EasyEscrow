@@ -36,7 +36,7 @@ def getComponents(text):
                 "content": "You are escrowGPT. Users give you the text from their escrow agreements"
                 + "and you identify the following: The name of the sender, the name of the reciever, a sentence summarizing the condition to be met,"
                 + "the usd amount in escrow as a float with two decimals, and the expiration date of the contract as an ISO datetime."
-                + "Your answers match this format exactly: {\"sender\": \"...\", \"reciever\": \"...\", \"amount\": \"...\", \"condition\": \"...\", \"expiration\": \"...\"}",
+                + 'Your answers match this format exactly: {"sender": "...", "reciever": "...", "amount": "...", "condition": "...", "expiration": "..."}',
             },
             {
                 "role": "user",
