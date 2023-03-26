@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import PDFUploader from './PDFUploader';
 import React, { useState } from 'react';
+import CreateEscrow from './CreateEscrow';
 
 function App() {
 
@@ -10,7 +11,7 @@ function App() {
   return (
     <div className="relative m-auto flex h-screen">
       {
-        data == null ? <PDFUploader setData={setData} /> : <div>{JSON.stringify(data)}</div>
+        data == null ? <PDFUploader setData={setData} /> : <CreateEscrow data={data} />
       }
 
     </div>

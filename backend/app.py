@@ -1,3 +1,4 @@
+import json
 import sys
 import uuid
 from dateutil import parser
@@ -35,7 +36,7 @@ def getComponents(text):
                 "content": "You are escrowGPT. Users give you the text from their escrow agreements"
                 + "and you identify the following: The name of the sender, the name of the reciever, a sentence summarizing the condition to be met,"
                 + "the usd amount in escrow as a float with two decimals, and the expiration date of the contract as an ISO datetime."
-                + "Your answers match this format exactly: {'sender': '...', 'reciever': '...', 'amount': '...', 'condition': '...', 'expiration': '...'}",
+                + "Your answers match this format exactly: {\"sender\": \"...\", \"reciever\": \"...\", \"amount\": \"...\", \"condition\": \"...\", \"expiration\": \"...\"}",
             },
             {
                 "role": "user",
@@ -68,6 +69,7 @@ def hello_world():
     extracted_text = extract_text_from_pdf(file)
     print(extracted_text)
     components = getComponents(extracted_text)
+    components = json.loads(components)
     print(components)
     return jsonify({"components": components})
 
@@ -93,7 +95,12 @@ def escrow():
     txn_data = createEscrow(seed, sequence, rec_addr, amount, expiration)
 
     uid = str(uuid.uuid4())
-    metadata = {"components": components, "txn_data": txn_data, "fulfilled": False, "finished": False}
+    metadata = {
+        "components": components,
+        "txn_data": txn_data,
+        "fulfilled": False,
+        "finished": False,
+    }
 
     MAPPINGS[uid] = metadata
 
@@ -119,7 +126,11 @@ def reference(uid):
 @app.route("/finish/<uid>", methods=["GET"])
 def finish(uid):
 
-    if uid in MAPPINGS and MAPPINGS.get(uid).get("fulfilled") and not MAPPINGS.get(uid).get("finished"):
+    if (
+        uid in MAPPINGS
+        and MAPPINGS.get(uid).get("fulfilled")
+        and not MAPPINGS.get(uid).get("finished")
+    ):
         mapping = MAPPINGS.get(uid)
         finishEscrowDict(mapping.get("txn_data"))
         mapping["finished"] = True
