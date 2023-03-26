@@ -80,6 +80,7 @@ def createEscrow(seed, sequence, rec_addr, amount, expiration):
 
     return {
         "creator": sender_wallet.classic_address,
+        "reciever": rec_addr,
         "sequence": sequence,
         "condition": condition,
         "fulfillment": fulfillment,
