@@ -39,7 +39,7 @@ function PDFUploader() {
   }
 
   return (
-    <div className='relative my-2 mx-auto mt-10 p-2.5 pb-4 rounded shadow-md h-fit w-1/3 bg-white'>
+    <div className='relative m-auto flex h-2/3 p-2.5 pb-4 rounded shadow-md w-1/3 bg-slate-100'>
       <form onSubmit={handleSubmit}>
         <input
           type="file"

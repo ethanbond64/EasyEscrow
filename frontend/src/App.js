@@ -4,7 +4,7 @@ import PDFUploader from './PDFUploader';
 
 function App() {
   return (
-    <div className="App">
+    <div className="relative m-auto flex h-screen">
       <PDFUploader />
     </div>
   );
