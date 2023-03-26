@@ -9,6 +9,9 @@ load_dotenv()
 
 from flask_cors import CORS
 
+### Keyed by the id of the xrp escrow, references the mappings from the pdf
+MAPPINGS = {}
+
 # print(search.execute())
 app = Flask(__name__)
 app.config["SERVER_NAME"] = "localhost:8000"
@@ -62,9 +65,18 @@ def hello_world():
     return jsonify({"components": components})
 
 
-@app.route("/escrow", methods=["GET"])
+@app.route("/escrow", methods=["POST"])
 def escrow():
-    return createEscrow()
+
+    # json format
+    # { seed, sequence, xaddress, condition }
+    data = request.get_json()
+    seed = data.get("seed")
+    sequence = data.get("sequence")
+    rec_addr = data.get("rec_addr")
+    condition = data.get("condition")
+
+    return createEscrow(seed, sequence, rec_addr)
 
 
 if __name__ == "__main__":

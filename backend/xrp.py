@@ -29,19 +29,21 @@ expiry_date = datetime_to_ripple_time(datetime.now() + timedelta(days=5))
 # You can optionally use a Crypto Condition to allow for dynamic release of funds. For example:
 condition = "A02580205A0E9E4018BE1A6E0F51D39B483122EFDF1DDEF3A4BE83BE71522F9E8CDAB179810120"  # do not use in production
 
-# sender wallet object
-sender_wallet = Wallet(
-    "sEdVnSyZyFH5qRrYPo5RT2cVaUt1tr2", "36464908"
-)  # generate_faucet_wallet(client=client)
+# # sender wallet object
+# sender_wallet = Wallet(
+#     "sEdVnSyZyFH5qRrYPo5RT2cVaUt1tr2", "36464908"
+# )  # generate_faucet_wallet(client=client)
 
 
-def createEscrow():
+def createEscrow(seed, sequence, rec_addr):
+
+    sender_wallet = Wallet(seed, sequence)
 
     # Build escrow create transaction
     create_txn = EscrowCreate(
         account=sender_wallet.classic_address,
         amount=xrp_to_drops(amount_to_escrow),
-        destination=receiver_addr,
+        destination=rec_addr,
         finish_after=claim_date,
         cancel_after=expiry_date,
         condition=condition,
