@@ -1,3 +1,4 @@
+from xrp import createEscrow
 from flask import Flask, request, jsonify
 import openai
 import fitz
@@ -59,6 +60,11 @@ def hello_world():
     components = getComponents(extracted_text)
     print(components)
     return jsonify({"components": components})
+
+
+@app.route("/escrow", methods=["GET"])
+def escrow():
+    return createEscrow()
 
 
 if __name__ == "__main__":
