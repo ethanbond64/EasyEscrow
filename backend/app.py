@@ -1,3 +1,4 @@
+import sys
 import uuid
 from dateutil import parser
 from xrp import usdToXrp
@@ -85,9 +86,9 @@ def escrow():
     amount = float(components.get("amount")) / usdToXrp()
 
     expiration = parser.parse(components.get("expiration"))
-    print("helloooo")
-    print(type(expiration))
-    print(expiration)
+    # print("helloooo", file=sys.stdout)
+    # print(type(expiration))
+    # print(expiration)
     txn_data = createEscrow(seed, sequence, rec_addr, amount, expiration)
 
     uid = str(uuid.uuid4())
@@ -95,7 +96,7 @@ def escrow():
 
     MAPPINGS[uid] = metadata
 
-    return jsonify({"metadata": txn_data, "id": uid})
+    return jsonify({"metadata": metadata, "id": uid})
 
 
 @app.route("/validate/<txnId>", methods=["GET"])

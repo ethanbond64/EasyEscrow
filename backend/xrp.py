@@ -67,7 +67,7 @@ def createEscrow(seed, sequence, rec_addr, amount, expiration):
         finish_after=datetime_to_ripple_time(
             datetime.now() + timedelta(seconds=15)
         ),  # Temporary to reduce load on nlp enpoint
-        cancel_after=expiration,
+        cancel_after=datetime_to_ripple_time(expiration),
         condition=condition,
     )
 
