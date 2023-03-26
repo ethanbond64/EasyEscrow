@@ -1,4 +1,4 @@
-from xrp import createEscrow
+from xrp import createEscrow, finishEscrow
 from flask import Flask, request, jsonify
 import openai
 import fitz
@@ -10,6 +10,7 @@ load_dotenv()
 from flask_cors import CORS
 
 ### Keyed by the id of the xrp escrow, references the mappings from the pdf
+# Contains "alias": {data: {}, fulfilled: false}
 MAPPINGS = {}
 
 # print(search.execute())
@@ -53,7 +54,7 @@ def extract_text_from_pdf(pdf):
     return text
 
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/derive", methods=["GET", "POST"])
 def hello_world():
     print(request.files)
     file = request.files.get("files")
@@ -76,7 +77,38 @@ def escrow():
     rec_addr = data.get("rec_addr")
     condition = data.get("condition")
 
-    return createEscrow(seed, sequence, rec_addr)
+    return jsonify(
+        {
+            "metadata": createEscrow(seed, sequence, rec_addr),
+            "validate": "TODO",
+            "reference": "TODO",
+        }
+    )
+
+
+@app.route("/validate/<txnId>", methods=["GET"])
+def validate(txnId):
+
+    if txnId in MAPPINGS:
+        txn = MAPPINGS.get(txnId)
+        txn["fulfilled"] = True
+        return jsonify({"success": True})
+
+    return jsonify({"success": False})
+
+
+@app.route("/reference/<id>", methods=["GET"])
+def reference(id):
+    return jsonify({"reference": "todo"})
+
+
+@app.route("/finish/<txnId>", methods=["GET"])
+def finish(txnId):
+
+    if txnId in MAPPINGS and MAPPINGS.get(txnId).get("fulfilled"):
+        finishEscrow(MAPPINGS.get(txnId).get("data"))
+        return jsonify({"success": True})
+    return jsonify({"success": False})
 
 
 if __name__ == "__main__":

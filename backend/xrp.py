@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from xrpl.clients import JsonRpcClient
-from xrpl.models import EscrowCreate
+from xrpl.models import EscrowCreate, EscrowFinish
 from xrpl.transaction import (
     safe_sign_and_autofill_transaction,
     send_reliable_submission,
@@ -53,3 +53,39 @@ def createEscrow(seed, sequence, rec_addr):
     stxn = safe_sign_and_autofill_transaction(create_txn, sender_wallet, client)
     stxn_response = send_reliable_submission(stxn, client)
     return stxn_response.result
+
+
+def finishEscrowDict(dict):
+    return finishEscrow(
+        dict["creator"], dict["sequence"], dict["condition"], dict["fulfillment"]
+    )
+
+
+def finishEscrow(creator, sequence, condition, fulfillment):
+
+    temp_wallet = generate_faucet_wallet(client=client)
+
+    # Build escrow finish transaction
+    finish_txn = EscrowFinish(
+        account=temp_wallet.classic_address,
+        owner=creator,
+        offer_sequence=sequence,
+        condition=condition,
+        fulfillment=fulfillment,
+    )
+
+    # Sign transaction with wallet
+    stxn = safe_sign_and_autofill_transaction(finish_txn, temp_wallet, client)
+
+    # Send transaction and wait for response
+    stxn_response = send_reliable_submission(stxn, client)
+
+    # Parse response and return result
+    return stxn_response.result
+
+
+def validateEscrow(escrow_result):
+    if escrow_result["meta"]["TransactionResult"] == "tesSUCCESS":
+        return True
+    else:
+        return False

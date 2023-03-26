@@ -18,16 +18,7 @@ function PDFUploader() {
 
     try {
 
-      // const response = await fetch('http://localhost:8000/', {
-      //   method: 'POST',
-      //   body: formData,
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //     'Access-Control-Allow-Origin': '*'
-      //   },
-      // });
-
-      const response = await axios.post('http://localhost:8000/', formData, {
+      const response = await axios.post('http://localhost:8000/derive', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
