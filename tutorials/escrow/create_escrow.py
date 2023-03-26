@@ -8,7 +8,7 @@ from xrpl.transaction import (
     send_reliable_submission,
 )
 from xrpl.utils import datetime_to_ripple_time, xrp_to_drops
-from xrpl.wallet import generate_faucet_wallet
+from xrpl.wallet import generate_faucet_wallet, Wallet
 
 # Create Escrow
 
@@ -31,7 +31,9 @@ expiry_date = datetime_to_ripple_time(datetime.now() + timedelta(days=5))
 condition = "A02580205A0E9E4018BE1A6E0F51D39B483122EFDF1DDEF3A4BE83BE71522F9E8CDAB179810120"  # do not use in production
 
 # sender wallet object
-sender_wallet = generate_faucet_wallet(client=client)
+sender_wallet = Wallet(
+    "sEdVnSyZyFH5qRrYPo5RT2cVaUt1tr2", "36464908"
+)  # generate_faucet_wallet(client=client)
 
 # Build escrow create transaction
 create_txn = EscrowCreate(

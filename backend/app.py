@@ -51,16 +51,14 @@ def extract_text_from_pdf(pdf):
 
 @app.route("/", methods=["GET", "POST"])
 def hello_world():
-    # print(request.__dict__)
     print(request.files)
-    # print(request.form)
     file = request.files.get("files")
     print(file)
     extracted_text = extract_text_from_pdf(file)
     print(extracted_text)
-
-    # resp = request.files["file"]
-    return jsonify({"text": extracted_text})
+    components = getComponents(extracted_text)
+    print(components)
+    return jsonify({"components": components})
 
 
 if __name__ == "__main__":

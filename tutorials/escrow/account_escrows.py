@@ -8,7 +8,7 @@ client = JsonRpcClient(
     "https://s.altnet.rippletest.net:51234"
 )  # Connect to the testnetwork
 
-account_address = "r9CEVt4Cmcjt68ME6GKyhf2DyEGo2rG8AW"
+account_address = "rsbYfqB8Nc12LaPUZr5ucb1v3egPw8jQJj"
 
 all_escrows_dict = {}
 sent_escrows = []
