@@ -46,7 +46,7 @@ function PDFUploader() {
           accept="application/pdf"
           onChange={handleChange}
         />
-        <button type="submit">Submit</button>
+        <button type="submit" class="absolute bottom-0 right-0 py-2 px-3 mb-8 mr-10 rounded text-center text-white bg-indigo-500 cursor-pointer hover:bg-indigo-400 focus:bg-indigo-600" >Upload</button>
       </form>
     </div>
   );
