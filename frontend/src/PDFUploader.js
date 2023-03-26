@@ -39,14 +39,16 @@ function PDFUploader() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="file"
-        accept="application/pdf"
-        onChange={handleChange}
-      />
-      <button type="submit">Submit</button>
-    </form>
+    <div className='relative my-2 mx-auto mt-10 p-2.5 pb-4 rounded shadow-md h-fit w-1/3 bg-white'>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="file"
+          accept="application/pdf"
+          onChange={handleChange}
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   );
 }
 
