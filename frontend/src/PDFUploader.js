@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-function PDFUploader() {
+function PDFUploader(props) {
   const [file, setFile] = useState(null);
-  const [responseJson, setResponseJson] = useState(null);
+  // const [responseJson, setResponseJson] = useState(null);
 
   const handleChange = (e) => {
     setFile(e.target.files[0]);
@@ -26,7 +26,8 @@ function PDFUploader() {
 
       if (response.status === 200) {
         console.log('File uploaded successfully');
-        setResponseJson(response.data);
+        // setResponseJson(response.data);
+        props.setData(response.data);
         // setFile(null);
       }
     } catch (error) {
@@ -34,9 +35,9 @@ function PDFUploader() {
     }
   };
 
-  if (responseJson) {
-    return <div>{JSON.stringify(responseJson)}</div>;
-  }
+  // if (responseJson) {
+  //   return <div>{JSON.stringify(responseJson)}</div>;
+  // }
 
   return (
     <div className='relative m-auto flex h-2/3 p-2.5 pb-4 rounded shadow-md w-1/3 bg-slate-100'>

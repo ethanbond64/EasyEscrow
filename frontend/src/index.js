@@ -2,12 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import history from './History';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Router history={history}>
+      {/* <div className={`lg:container lg:mx-auto h-screen`}> */}
+      {/* <Navbar /> */}
+      {/* <App /> */}
+      <Routes>
+        <Route path="/" element={<App />} />
+        {/* <Route path="/create/video" element={<VideoForm />} />
+          <Route path="/create/product/:video_id/:site_id" element={<ProductForm />} /> */}
+      </Routes>
+      {/* </div> */}
+    </Router>
+    {/* <App /> */}
   </React.StrictMode>
 );
 
