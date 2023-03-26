@@ -89,7 +89,7 @@ def createEscrow(seed, sequence, rec_addr, amount, expiration):
 
 def finishEscrowDict(dict):
     return finishEscrow(
-        dict["creator"], dict["sequence"], dict["condition"], dict["fulfillment"]
+        dict["creator"], int(dict["sequence"]), dict["condition"], dict["fulfillment"]
     )
 
 

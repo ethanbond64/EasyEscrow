@@ -1,6 +1,7 @@
 import sys
 import uuid
 from dateutil import parser
+from xrp import finishEscrowDict
 from xrp import usdToXrp
 from xrp import createEscrow, finishEscrow
 from flask import Flask, request, jsonify
@@ -14,7 +15,7 @@ load_dotenv()
 from flask_cors import CORS
 
 ### Keyed by the id of the xrp escrow, references the mappings from the pdf
-# Contains "alias": {components: {}, txn_data: {}, fulfilled: false}
+# Contains "alias": {components: {}, txn_data: {}, fulfilled: false, finished: false}
 MAPPINGS = {}
 
 # print(search.execute())
@@ -92,7 +93,7 @@ def escrow():
     txn_data = createEscrow(seed, sequence, rec_addr, amount, expiration)
 
     uid = str(uuid.uuid4())
-    metadata = {"components": components, "txn_data": txn_data, "fulfilled": False}
+    metadata = {"components": components, "txn_data": txn_data, "fulfilled": False, "finished": False}
 
     MAPPINGS[uid] = metadata
 
@@ -115,11 +116,14 @@ def reference(uid):
     return jsonify({"reference": MAPPINGS.get(uid)})
 
 
-@app.route("/finish/<txnId>", methods=["GET"])
-def finish(txnId):
+@app.route("/finish/<uid>", methods=["GET"])
+def finish(uid):
 
-    if txnId in MAPPINGS and MAPPINGS.get(txnId).get("fulfilled"):
-        finishEscrow(MAPPINGS.get(txnId).get("data"))
+    if uid in MAPPINGS and MAPPINGS.get(uid).get("fulfilled") and not MAPPINGS.get(uid).get("finished"):
+        mapping = MAPPINGS.get(uid)
+        finishEscrowDict(mapping.get("txn_data"))
+        mapping["finished"] = True
+        MAPPINGS[uid] = mapping
         return jsonify({"success": True})
     return jsonify({"success": False})
 
