@@ -9,6 +9,7 @@ from xrpl.transaction import (
 )
 from xrpl.utils import datetime_to_ripple_time, xrp_to_drops
 from xrpl.wallet import generate_faucet_wallet, Wallet
+from cryptoconditions import PreimageSha256
 
 # Create Escrow
 

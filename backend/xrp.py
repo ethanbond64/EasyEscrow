@@ -1,3 +1,4 @@
+from os import urandom
 from datetime import datetime, timedelta
 
 from xrpl.clients import JsonRpcClient
@@ -8,6 +9,7 @@ from xrpl.transaction import (
 )
 from xrpl.utils import datetime_to_ripple_time, xrp_to_drops
 from xrpl.wallet import generate_faucet_wallet, Wallet
+from cryptoconditions import PreimageSha256
 
 # Create Escrow
 
@@ -35,24 +37,53 @@ condition = "A02580205A0E9E4018BE1A6E0F51D39B483122EFDF1DDEF3A4BE83BE71522F9E8CD
 # )  # generate_faucet_wallet(client=client)
 
 
-def createEscrow(seed, sequence, rec_addr):
+def usdToXrp():
+    return 0.449
+
+
+def createCondition():
+    secret = urandom(32)
+
+    # Generate cryptic image from secret
+    fufill = PreimageSha256(preimage=secret)
+
+    # Parse image and return the condition and fulfillment
+    condition = str.upper(fufill.condition_binary.hex())  # conditon
+    fulfillment = str.upper(fufill.serialize_binary().hex())
+
+    return condition, fulfillment
+
+
+def createEscrow(seed, sequence, rec_addr, amount, expiration):
 
     sender_wallet = Wallet(seed, sequence)
+    condition, fulfillment = createCondition()
 
     # Build escrow create transaction
     create_txn = EscrowCreate(
         account=sender_wallet.classic_address,
-        amount=xrp_to_drops(amount_to_escrow),
+        amount=xrp_to_drops(amount),
         destination=rec_addr,
-        finish_after=claim_date,
-        cancel_after=expiry_date,
+        finish_after=datetime_to_ripple_time(
+            datetime.now() + timedelta(seconds=15)
+        ),  # Temporary to reduce load on nlp enpoint
+        cancel_after=expiration,
         condition=condition,
     )
 
     # Sign and send transaction
     stxn = safe_sign_and_autofill_transaction(create_txn, sender_wallet, client)
     stxn_response = send_reliable_submission(stxn, client)
-    return stxn_response.result
+
+    if stxn_response is None:
+        raise Exception("Escrow creation failed")
+
+    return {
+        "creator": sender_wallet.classic_address,
+        "sequence": sequence,
+        "condition": condition,
+        "fulfillment": fulfillment,
+    }
 
 
 def finishEscrowDict(dict):

@@ -1,3 +1,6 @@
+import uuid
+from dateutil import parser
+from xrp import usdToXrp
 from xrp import createEscrow, finishEscrow
 from flask import Flask, request, jsonify
 import openai
@@ -10,7 +13,7 @@ load_dotenv()
 from flask_cors import CORS
 
 ### Keyed by the id of the xrp escrow, references the mappings from the pdf
-# Contains "alias": {data: {}, fulfilled: false}
+# Contains "alias": {components: {}, txn_data: {}, fulfilled: false}
 MAPPINGS = {}
 
 # print(search.execute())
@@ -28,8 +31,9 @@ def getComponents(text):
             {
                 "role": "system",
                 "content": "You are escrowGPT. Users give you the text from their escrow agreements"
-                + "and you identify the names of the parties and the amount in escrow, based on the text."
-                + "Your answers match this format: {'party1': '...', 'party2': '...', 'amount': '...'}",
+                + "and you identify the following: The name of the sender, the name of the reciever, a sentence summarizing the condition to be met,"
+                + "the usd amount in escrow as a float with two decimals, and the expiration date of the contract as an ISO datetime."
+                + "Your answers match this format exactly: {'sender': '...', 'reciever': '...', 'amount': '...', 'condition': '...', 'expiration': '...'}",
             },
             {
                 "role": "user",
@@ -72,18 +76,26 @@ def escrow():
     # json format
     # { seed, sequence, xaddress, condition }
     data = request.get_json()
+    components = data.get("components")
+
     seed = data.get("seed")
     sequence = data.get("sequence")
     rec_addr = data.get("rec_addr")
-    condition = data.get("condition")
 
-    return jsonify(
-        {
-            "metadata": createEscrow(seed, sequence, rec_addr),
-            "validate": "TODO",
-            "reference": "TODO",
-        }
-    )
+    amount = float(components.get("amount")) / usdToXrp()
+
+    expiration = parser.parse(components.get("expiration"))
+    print("helloooo")
+    print(type(expiration))
+    print(expiration)
+    txn_data = createEscrow(seed, sequence, rec_addr, amount, expiration)
+
+    uid = str(uuid.uuid4())
+    metadata = {"components": components, "txn_data": txn_data, "fulfilled": False}
+
+    MAPPINGS[uid] = metadata
+
+    return jsonify({"metadata": txn_data, "id": uid})
 
 
 @app.route("/validate/<txnId>", methods=["GET"])
@@ -97,9 +109,9 @@ def validate(txnId):
     return jsonify({"success": False})
 
 
-@app.route("/reference/<id>", methods=["GET"])
-def reference(id):
-    return jsonify({"reference": "todo"})
+@app.route("/reference/<uid>", methods=["GET"])
+def reference(uid):
+    return jsonify({"reference": MAPPINGS.get(uid)})
 
 
 @app.route("/finish/<txnId>", methods=["GET"])
