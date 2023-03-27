@@ -8,6 +8,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Reference from './Reference';
 import logo from './EasyEscrowLogo.png'
 import Validate from './Validate';
+import Complete from './Complete';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -41,6 +42,7 @@ root.render(
         <Route path="/" element={<App />} />
         <Route path="/reference/:id" element={<Reference />} />
         <Route path="/validate/:id" element={<Validate />} />
+        <Route path="/complete/:id" element={<Complete />} />
       </Routes>
     </Router>
     <footer class="bg-white">
