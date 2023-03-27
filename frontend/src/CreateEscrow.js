@@ -54,16 +54,18 @@ function CreateEscrow(props) {
     if (links.length > 0) {
         return (
             <div className='relative mx-auto w-5/6 flex justify-center'>
-                <div className='relative m-auto flex h-2/3 p-2.5 pb-4 rounded shadow-md w-1/3 bg-slate-100 text-center'>
-                    <span className="text-2xl mb-4 font-bold">Escrow created successfully &#127881;</span>
-                    <br />
-                    {
-                        isNa(props.data["components"]["thirdParty"]) ? null : (
-                            <span>Escrow validation <a href={links[0]} className='text-blue-500' >link</a>. Send this to {props.data["components"]["thirdParty"]}</span>
-                        )
-                    }
-                    <br />
-                    <span>Escrow reference <a href={links[1]} className='text-blue-500' >link</a></span>
+                <div className='relative m-auto h-2/3 p-2.5 pb-4 rounded shadow-md w-1/3 bg-slate-100 text-center'>
+                    <div className="relative w-full block">
+                        <span className="text-2xl mb-5 font-bold">Escrow created successfully &#127881;</span>
+                        <span className="text-xl mb-10 font-semibold block underline"> <a href={links[1]} className='text-blue-700' >Click here to view your escrow</a></span>
+                    </div>
+                    <div className="relative w-full block mt-10">
+                        <span className="mb-3 block">Escrow validation <a href={links[0]} className='text-blue-500' >link</a>. Send this to {props.data["components"]["thirdParty"]}</span>
+                        <br />
+                        <span className="mb-3 block">Escrow completion <a href={links[0]} className='text-blue-500' >link</a>. Send this to {props.data["components"]["receiver"]}</span>
+                        <br />
+                        <span className="mb-3 block">Escrow reference <a href={links[1]} className='text-blue-500' >link</a></span>
+                    </div>
                 </div>
             </div>
         );
