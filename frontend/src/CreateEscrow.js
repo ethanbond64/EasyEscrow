@@ -59,7 +59,7 @@ function CreateEscrow(props) {
                         <span className="text-2xl mb-5 font-bold">Escrow created successfully &#127881;</span>
                         <span className="text-xl mb-10 font-semibold block underline"> <a href={links[1]} className='text-blue-700' >Click here to view your escrow</a></span>
                     </div>
-                    <div className="relative w-full block mt-10">
+                    <div className="relative w-full block mt-10 text-left">
                         <span className="mb-3 block">Escrow validation <a href={links[0]} className='text-blue-500' >link</a>. Send this to {props.data["components"]["thirdParty"]}</span>
                         <br />
                         <span className="mb-3 block">Escrow completion <a href={links[0]} className='text-blue-500' >link</a>. Send this to {props.data["components"]["receiver"]}</span>
