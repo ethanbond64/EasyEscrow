@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Reference from './Reference';
 import logo from './EasyEscrowLogo.png'
+import Validate from './Validate';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -39,6 +40,7 @@ root.render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/reference/:id" element={<Reference />} />
+        <Route path="/validate/:id" element={<Validate />} />
       </Routes>
     </Router>
     <footer class="bg-white">
