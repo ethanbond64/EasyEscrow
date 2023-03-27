@@ -9,7 +9,10 @@ function CreateEscrow(props) {
             </div>
             <div className='relative my-auto ml-3  h-5/6 p-2.5 pb-4 rounded shadow-md w-2/3 bg-slate-100'>
                 <form className='w-full'>
-                    <div class="grid md:grid-cols-2 md:gap-6">
+                    <span className="text-xl mb-4 font-bold">Fill out address information</span>
+                    <br />
+                    <span className="text-md mb-4">Field values derived from your document using <a href="https://openai.com/blog/chatgpt/" target="_blank">ChatGPT</a></span>
+                    <div class="grid md:grid-cols-2 mt-4 md:gap-6">
                         <div class="relative z-0 w-full mb-6 group h-fit p-4 pt-2 rounded-lg bg-slate-300">
                             <span className="text-xl font-semibold">Sender: &nbsp; {props.data["components"]["sender"]}</span>
                             <label for="seed" class="block mb-2 text-sm font-medium">Sender seed</label>
@@ -44,7 +47,6 @@ function CreateEscrow(props) {
 
                     <button type="submit" class="absolute bottom-0 right-0 py-2 px-3 mb-8 mr-10 rounded text-center text-white bg-indigo-500 cursor-pointer hover:bg-indigo-400 focus:bg-indigo-600" >Upload</button>
 
-                    {JSON.stringify(props.data)}
                 </form>
             </div>
         </div>
