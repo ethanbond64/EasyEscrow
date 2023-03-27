@@ -64,7 +64,7 @@ function CreateEscrow(props) {
                         <h2 class="mb-2 text-lg font-semibold text-gray-900 ">Next steps:</h2>
                         <ol class="max-w-md space-y-1 text-gray-700 list-decimal list-inside">
                             <li className='mb-4'>
-                                Validate the condition from the escrow agreement is met. Send this link to <span class="font-semibold text-gray-900 ">Third Party</span>.
+                                Validate the condition from the escrow agreement is met. Send this link to <span class="font-semibold text-gray-900 ">{props.data["components"]["thirdParty"]}</span>.
                                 <br />
                                 <a href={links[1]} target="_blank" class="mt-2 cursor-pointer inline-flex items-center mx-auto justify-center p-3 text-base font-medium text-blue-500 rounded-lg bg-white hover:text-gray-900 hover:bg-blue-100">
                                     <span class="w-full">Validation Link</span>
@@ -72,7 +72,7 @@ function CreateEscrow(props) {
                                 </a>
                             </li>
                             <li>
-                                Complete the escrow by sending the balance to reciever. Send this link to <span class="font-semibold text-gray-900 ">{props.data["components"]["receiver"]}</span>.
+                                Complete the escrow by sending the balance to reciever. Send this link to <span class="font-semibold text-gray-900 ">{props.data["components"]["reciever"]}</span>.
                                 <br />
                                 <a href={links[2]} target="_blank" class="mt-2 cursor-pointer inline-flex items-center mx-auto justify-center p-3 text-base font-medium text-blue-500 rounded-lg bg-white hover:text-gray-900 hover:bg-blue-100">
                                     <span class="w-full">Completion Link</span>
@@ -115,7 +115,7 @@ function CreateEscrow(props) {
                     <div class="grid md:grid-cols-4 md:gap-3">
                         <div class="relative col-span-2 z-0 w-full mb-6 group h-fit  pt-2">
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Third party</label>
-                            <input type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value={isNa(props.data["components"]["thirdParty"]) ? props.data["components"]["thirdParty"] : "None"} disabled />
+                            <input type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value={props.data["components"]["thirdParty"]} disabled />
                         </div>
                         <div class="relative z-0 w-full mb-6 group h-fit pt-2">
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Amount (USD)</label>
