@@ -9,6 +9,7 @@ import Reference from './Reference';
 import logo from './EasyEscrowLogo.png'
 import Validate from './Validate';
 import Complete from './Complete';
+import Samples from './Samples';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -28,7 +29,7 @@ root.render(
               <a href="http://localhost:3000/" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white" aria-current="page">Home</a>
             </li>
             <li>
-              <a href="#" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Samples</a>
+              <a href="http://localhost:3000/samples" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">Samples</a>
             </li>
             <li>
               <a href="https://github.com/ethanbond64/EasyEscrow" class="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 ">About</a>
@@ -43,6 +44,7 @@ root.render(
         <Route path="/reference/:id" element={<Reference />} />
         <Route path="/validate/:id" element={<Validate />} />
         <Route path="/complete/:id" element={<Complete />} />
+        <Route path="/samples" element={<Samples />} />
       </Routes>
     </Router>
     <footer class="bg-white">
