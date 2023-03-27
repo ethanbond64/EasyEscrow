@@ -12,7 +12,7 @@ function CreateEscrow(props) {
     const [links, setLinks] = useState([]);
 
     const makeLinks = (uid) => {
-        return ["http://localhost:8000/validate/" + uid, "http://localhost:8000/reference/" + uid];
+        return ["http://localhost:3000/validate/" + uid, "http://localhost:3000/reference/" + uid];
     }
 
     const handleSubmit = async (e) => {
