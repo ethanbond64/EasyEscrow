@@ -1,0 +1,62 @@
+TODO XRP PROJECT
+
+Frontend
+- Logo + name - Done
+- General layout and cleanup - Done
+
+- PDF form - Done
+- Address form - Done
+- Review/status page + link to - Done
+- Validate page - TODO
+- Finish page - TODO
+
+Backend
+- Create escrow - Done
+- View/reference escrow - Done
+
+Devpost
+- Summary - tonight
+- Slides - tonight
+- Readme - tonight
+
+Demo
+- Samples
+
+
+Conditional flow
+Name an oracle and send them a link with the verification hex 
+On click the escrow meets conditions
+Need a page to finish the ecsrow? Why not
+
+Demo flow
+Upload PDF -> breakdown to values
+Prompted for addresses -> create the escrow txn, return two links: one for validation, one for reference
+
+Validation page -> one click validate, posted to blockchain (fake auth? or fake send via email/phone?)
+Reference page -> fetch transaction from blockchain and display in readable format. Finish button exists here. On click, post to the endpoint to finish, then refresh and rerequest data
+
+
+Endpoints:
+
+1. Derive values
+ - IN: File
+ - OUT: 3 parties, amount, timeline, condition
+
+2. Create escrow (store conditional map)
+ - IN: addresses
+ - OUT: Transaction metadata, link to validate, link to reference
+
+3. Validate
+ - IN: get request with txn alias as url param, makes the fulfillment available for finish
+ - OUT: success flag
+
+4. Reference
+ - IN: get transaction addr or mapped alias
+ - OUT: json with all data about transaction
+
+5. Finish
+ - IN: empty get request, checks that alias has been validated
+ - OUT: success or fail flag
+
+
+

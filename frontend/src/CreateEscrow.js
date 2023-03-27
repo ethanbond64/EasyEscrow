@@ -12,7 +12,7 @@ function CreateEscrow(props) {
     const [links, setLinks] = useState([]);
 
     const makeLinks = (uid) => {
-        return ["http://localhost:3000/validate/" + uid, "http://localhost:3000/reference/" + uid];
+        return ["http://localhost:3000/reference/" + uid, "http://localhost:3000/validate/" + uid, "http://localhost:3000/complete/" + uid];
     }
 
     const handleSubmit = async (e) => {
@@ -57,14 +57,29 @@ function CreateEscrow(props) {
                 <div className='relative m-auto h-2/3 p-2.5 pb-4 rounded shadow-md w-1/3 bg-slate-100 text-center'>
                     <div className="relative w-full block">
                         <span className="text-2xl mb-5 font-bold">Escrow created successfully &#127881;</span>
-                        <span className="text-xl mb-10 font-semibold block underline"> <a href={links[1]} className='text-blue-700' >Click here to view your escrow</a></span>
+                        <span className="text-xl mb-10 font-semibold block underline"> <a href={links[0]} className='text-blue-700' >Click here to view your escrow</a></span>
                     </div>
                     <div className="relative w-full block mt-10 text-left">
-                        <span className="mb-3 block">Escrow validation <a href={links[0]} className='text-blue-500' >link</a>. Send this to {props.data["components"]["thirdParty"]}</span>
-                        <br />
-                        <span className="mb-3 block">Escrow completion <a href={links[0]} className='text-blue-500' >link</a>. Send this to {props.data["components"]["receiver"]}</span>
-                        <br />
-                        <span className="mb-3 block">Escrow reference <a href={links[1]} className='text-blue-500' >link</a></span>
+
+                        <h2 class="mb-2 text-lg font-semibold text-gray-900 ">Next steps:</h2>
+                        <ol class="max-w-md space-y-1 text-gray-700 list-decimal list-inside">
+                            <li className='mb-4'>
+                                Validate the condition from the escrow agreement is met. Send this link to <span class="font-semibold text-gray-900 ">Third Party</span>.
+                                <br />
+                                <a href={links[1]} target="_blank" class="mt-2 cursor-pointer inline-flex items-center mx-auto justify-center p-3 text-base font-medium text-blue-500 rounded-lg bg-white hover:text-gray-900 hover:bg-blue-100">
+                                    <span class="w-full">Validation Link</span>
+                                    <svg aria-hidden="true" class="w-6 h-6 ml-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                </a>
+                            </li>
+                            <li>
+                                Complete the escrow by sending the balance to reciever. Send this link to <span class="font-semibold text-gray-900 ">{props.data["components"]["receiver"]}</span>.
+                                <br />
+                                <a href={links[2]} target="_blank" class="mt-2 cursor-pointer inline-flex items-center mx-auto justify-center p-3 text-base font-medium text-blue-500 rounded-lg bg-white hover:text-gray-900 hover:bg-blue-100">
+                                    <span class="w-full">Completion Link</span>
+                                    <svg aria-hidden="true" class="w-6 h-6 ml-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                </a>
+                            </li>
+                        </ol>
                     </div>
                 </div>
             </div>

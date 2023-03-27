@@ -49,7 +49,11 @@ function Complete(props) {
 
 
     if (loading) {
-        return <Spinner />
+        return (
+            <div className="relative m-auto flex h-screen">
+                <Spinner />
+            </div>
+        )
     }
 
     return (
