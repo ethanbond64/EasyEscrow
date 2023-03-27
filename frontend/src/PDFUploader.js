@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Spinner from './Spinner';
 
 function PDFUploader(props) {
   const [file, setFile] = useState(null);
-  // const [responseJson, setResponseJson] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFile(e.target.files[0]);
@@ -17,7 +18,7 @@ function PDFUploader(props) {
     console.log(formData);
 
     try {
-
+      setLoading(true);
       const response = await axios.post('http://localhost:8000/derive', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -26,14 +27,18 @@ function PDFUploader(props) {
 
       if (response.status === 200) {
         console.log('File uploaded successfully');
-        // setResponseJson(response.data);
         props.setData(response.data);
-        // setFile(null);
       }
     } catch (error) {
       console.error('Error uploading file:', error);
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return <Spinner />
+  }
+
 
   // if (responseJson) {
   //   return <div>{JSON.stringify(responseJson)}</div>;
@@ -51,7 +56,7 @@ function PDFUploader(props) {
           </div>
           <input id="dropzone-file" type="file" accept="application/pdf" onChange={handleChange} class="hidden" />
         </label>
-        <button type="submit" class="absolute bottom-0 right-0 py-2 px-3 mb-8 mr-10 rounded text-center text-white bg-indigo-500 cursor-pointer hover:bg-indigo-400 focus:bg-indigo-600" >Upload</button>
+        <button type="submit" class="absolute bottom-0 right-0 py-2 px-3 mb-6 mr-6 rounded text-center text-white bg-indigo-500 cursor-pointer hover:bg-indigo-400 focus:bg-indigo-600" >Upload</button>
       </form>
     </div>
   );

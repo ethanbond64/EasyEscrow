@@ -5,6 +5,7 @@ import App from './App';
 import history from './History';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Reference from './Reference';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -12,6 +13,7 @@ root.render(
     <Router history={history}>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/reference/:id" element={<Reference />} />
       </Routes>
     </Router>
   </React.StrictMode>

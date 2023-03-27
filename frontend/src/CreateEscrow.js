@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Spinner from './Spinner';
+import { isNa } from './Utils';
 
 function CreateEscrow(props) {
 
     const [seed, setSeed] = useState(null);
     const [sequence, setSequence] = useState(null);
     const [recAddr, setRecAddr] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [links, setLinks] = useState([]);
 
+    const makeLinks = (uid) => {
+        return ["http://localhost:8000/validate/" + uid, "http://localhost:8000/reference/" + uid];
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,7 +26,7 @@ function CreateEscrow(props) {
         };
 
         try {
-
+            setLoading(true);
             const response = await axios.post('http://localhost:8000/escrow', body, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,15 +34,39 @@ function CreateEscrow(props) {
             });
 
             if (response.status === 200) {
+                setLinks(makeLinks(response.data["id"]))
+                setLoading(false);
                 console.log('Escrow created successfully');
                 // setResponseJson(response.data);
                 console.log(response);
                 // setFile(null);
             }
         } catch (error) {
+            setLoading(false);
             console.error('Error creating escrow:', error);
         }
     };
+
+    if (loading) {
+        return <Spinner />
+    }
+
+    if (links.length > 0) {
+        return (
+            <div className='relative mx-auto w-5/6 flex justify-center'>
+                <div className='relative m-auto flex h-2/3 p-2.5 pb-4 rounded shadow-md w-1/3 bg-slate-100 text-center'>
+                    <span className="text-2xl mb-4 font-bold">Escrow created successfully &#127881;</span>
+                    {
+                        isNa(props.data["components"]["thirdParty"]) ? null : (
+                            <span>Escrow validation <a href={links[0]} className='text-blue-500' >link</a>. Send this to {props.data["components"]["thirdParty"]}</span>
+                        )
+                    }
+                    <br />
+                    <span>Escrow reference <a href={links[1]} className='text-blue-500' >link</a></span>
+                </div>
+            </div>
+        );
+    }
 
 
     return (
@@ -47,7 +78,7 @@ function CreateEscrow(props) {
                 <form className='w-full' onSubmit={handleSubmit}>
                     <span className="text-xl mb-4 font-bold">Fill out address information</span>
                     <br />
-                    <span className="text-md mb-4">Field values derived from your document using <a href="https://openai.com/blog/chatgpt/" target="_blank">ChatGPT</a></span>
+                    <span className="text-md mb-4">Field values derived from your document using <a href="https://openai.com/blog/chatgpt/" className='text-blue-500' target="_blank">ChatGPT</a></span>
                     <div class="grid md:grid-cols-2 mt-4 md:gap-6">
                         <div class="relative z-0 w-full mb-6 group h-fit p-4 pt-2 rounded-lg bg-slate-300">
                             <span className="text-xl font-semibold">Sender: &nbsp; {props.data["components"]["sender"]}</span>
@@ -66,7 +97,7 @@ function CreateEscrow(props) {
                     <div class="grid md:grid-cols-4 md:gap-3">
                         <div class="relative col-span-2 z-0 w-full mb-6 group h-fit  pt-2">
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Third party</label>
-                            <input type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value={props.data["components"]["thirdParty"] ? props.data["components"]["thirdParty"] : "None"} disabled />
+                            <input type="email" id="email" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" value={isNa(props.data["components"]["thirdParty"]) ? props.data["components"]["thirdParty"] : "None"} disabled />
                         </div>
                         <div class="relative z-0 w-full mb-6 group h-fit pt-2">
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Amount (USD)</label>
@@ -81,7 +112,7 @@ function CreateEscrow(props) {
                     <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">Escrow condition</label>
                     <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border mb-5 border-gray-300 focus:ring-blue-500 focus:border-blue-500" disabled value={props.data["components"]["condition"]}></textarea>
 
-                    <button type="submit" class="absolute bottom-0 right-0 py-2 px-3 mb-8 mr-10 rounded text-center text-white bg-indigo-500 cursor-pointer hover:bg-indigo-400 focus:bg-indigo-600" >Upload</button>
+                    <button type="submit" class="absolute bottom-0 right-0 py-2 px-3 mb-6 mr-6 rounded text-center text-white bg-indigo-500 cursor-pointer hover:bg-indigo-400 focus:bg-indigo-600" >Create</button>
 
                 </form>
             </div>
