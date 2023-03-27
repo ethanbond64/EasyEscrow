@@ -56,6 +56,7 @@ function CreateEscrow(props) {
             <div className='relative mx-auto w-5/6 flex justify-center'>
                 <div className='relative m-auto flex h-2/3 p-2.5 pb-4 rounded shadow-md w-1/3 bg-slate-100 text-center'>
                     <span className="text-2xl mb-4 font-bold">Escrow created successfully &#127881;</span>
+                    <br />
                     {
                         isNa(props.data["components"]["thirdParty"]) ? null : (
                             <span>Escrow validation <a href={links[0]} className='text-blue-500' >link</a>. Send this to {props.data["components"]["thirdParty"]}</span>
